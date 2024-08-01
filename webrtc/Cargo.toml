@@ -15,7 +15,9 @@ pem = ["dep:pem", "dtls/pem"]
 openssl = ["srtp/openssl"]
 vendored-openssl = ["srtp/vendored-openssl"]
 internal = ["data", "dtls", "ice", "interceptor", "mdns", "media", "rtcp", "rtp", "sctp", "sdp", "srtp", "stun", "turn", "util"]
-default = ["internal", "arc-swap", "tokio", "log", "async-trait", "serde", "serde_json", "rand", "bytes", "thiserror", "waitgroup", "regex", "smol_str", "url", "rustls", "rcgen", "ring", "sha2", "lazy_static", "hex", "pem", "time", "cfg-if", "portable-atomic"]
+external = ["arc-swap", "tokio", "log", "async-trait", "serde", "serde_json", "rand", "bytes", "thiserror", "waitgroup", "regex", "smol_str", "url", "rustls", "rcgen", "ring", "sha2", "lazy_static", "hex", "pem", "time", "cfg-if", "portable-atomic"]
+wasm = []
+default = ["internal", "external"]
 
 [dependencies]
 data = { version = "0.9.0", path = "../data", optional = true, package = "webrtc-data" }
@@ -33,7 +35,7 @@ stun = { version = "0.6.0", path = "../stun", optional = true }
 turn = { version = "0.8.0", path = "../turn", optional = true }
 util = { version = "0.9.0", path = "../util", optional = true, package = "webrtc-util" }
 
-arc-swap = { version = "1", optional = true }
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 tokio = { version = "1.32.0", optional = true, features = [
     "fs",
     "io-util",
@@ -46,6 +48,8 @@ tokio = { version = "1.32.0", optional = true, features = [
     "sync",
     "time",
 ] }
+
+arc-swap = { version = "1", optional = true }
 log = { version = "0.4", optional = true }
 async-trait = {version = "0.1", optional = true }
 serde = { version = "1", optional = true, features = ["derive"] }
