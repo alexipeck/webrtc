@@ -24,7 +24,7 @@ pub struct RTCSessionDescription {
 
     /// This will never be initialized by callers, internal use only
     #[serde(skip)]
-    pub(crate) parsed: Option<SessionDescription>,
+    pub parsed: Option<SessionDescription>,
 }
 
 impl RTCSessionDescription {
